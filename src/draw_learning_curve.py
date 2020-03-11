@@ -1,10 +1,8 @@
-'''
+"""
 Created on Nov 3, 2016
-
 draw a learning curve
-
 @author: xiul
-'''
+"""
 
 import argparse, json
 import matplotlib.pyplot as plt
@@ -35,6 +33,7 @@ def load_performance_file(path):
             numbers['ave_rewards'].append(data['ave_reward'][str(key)])
     return numbers
 
+
 def draw_learning_curve(numbers):
     """ draw the learning curve """
     
@@ -46,8 +45,7 @@ def draw_learning_curve(numbers):
     plt.plot(numbers['x'], numbers['success_rate'], 'r', lw=1)
     plt.show()
             
-    
-            
+
 def main(params):
     cmd = params['cmd']
     
@@ -67,6 +65,6 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     params = vars(args)
-    print json.dumps(params, indent=2)
+    print(json.dumps(params, indent=2))
 
     main(params)
