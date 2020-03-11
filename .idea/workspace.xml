@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="dd20abbf-9c10-4f24-a777-0f88e9afb24a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/agent_baselines.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/agent_baselines.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/agent_cmd.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/agent_cmd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/agent_dqn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/agent_dqn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/dialog_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/dialog_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/dict_reader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/dict_reader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/kb_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/kb_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/state_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/state_tracker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/decoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/lstm_decoder_tanh.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/lstm_decoder_tanh.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/nlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/nlg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/bi_lstm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/bi_lstm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/lstm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/lstm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/nlu.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/nlu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/seq_seq.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/seq_seq.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/qlearning/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/qlearning/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/qlearning/dqn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/qlearning/dqn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/qlearning/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/qlearning/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/usersims/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/usersims/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/usersims/usersim.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/usersims/usersim.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/usersims/usersim_rule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/usersims/usersim_rule.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1YyTvPdcN4lS2NebyiAgNWllKcv" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dd20abbf-9c10-4f24-a777-0f88e9afb24a" name="Default Changelist" comment="" />
+      <created>1583914063898</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1583914063898</updated>
+      <workItem from="1583914065788" duration="2408000" />
+      <workItem from="1583916491786" duration="5035000" />
+    </task>
+    <task id="LOCAL-00001" summary="python2——&gt;python3">
+      <created>1583917549918</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1583917549918</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="python2——&gt;python3" />
+    <option name="LAST_COMMIT_MESSAGE" value="python2——&gt;python3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="278" y="43" width="800" height="678" key="#Inspections" timestamp="1583918809050">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state x="278" y="43" width="800" height="678" key="#Inspections/0.26.1366.712@0.26.1366.712" timestamp="1583918809050" />
+    <state x="244" y="26" width="867" height="712" key="CommitChangelistDialog2" timestamp="1583921540889">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state x="244" y="26" width="867" height="712" key="CommitChangelistDialog2/0.26.1366.712@0.26.1366.712" timestamp="1583921540889" />
+    <state x="160" y="26" width="1027" height="712" key="SettingsEditor" timestamp="1583918857064">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state x="160" y="26" width="1027" height="712" key="SettingsEditor/0.26.1366.712@0.26.1366.712" timestamp="1583918857064" />
+    <state x="278" y="116" width="800" height="532" key="Vcs.Push.Dialog.v2" timestamp="1583917872867">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state x="278" y="116" width="800" height="532" key="Vcs.Push.Dialog.v2/0.26.1366.712@0.26.1366.712" timestamp="1583917872867" />
+  </component>
+</project>

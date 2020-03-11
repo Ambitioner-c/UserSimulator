@@ -1,8 +1,8 @@
-'''
+"""
 Created on Jun 13, 2016
-
 @author: xiul
-'''
+"""
+
 
 from .utils import *
 
@@ -42,7 +42,7 @@ class decoder:
     def batchBackward(self, dY, cache):
         caches = cache['caches']
         grads = {}
-        for i in xrange(len(caches)):
+        for i in range(len(caches)):
             single_cache = caches[i]
             local_grads = self.bwdPass(dY[i], single_cache)
             mergeDicts(grads, local_grads) # add up the gradients wrt model parameters
@@ -211,9 +211,9 @@ class decoder:
             if params['dia_slot_val'] == 2 or params['dia_slot_val'] == 3: 
                 sentence = self.post_process(sentence, ele['slotval'], ds.data['slot_dict'])
             
-            print 'test case', i
-            print 'real:', real_sentence
-            print 'pred:', sentence
+            print('test case', i)
+            print('real:', real_sentence)
+            print('pred:', sentence)
     
     """ post_process to fill the slot """
     def post_process(self, pred_template, slot_val_dict, slot_dict):

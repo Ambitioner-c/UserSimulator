@@ -9,6 +9,7 @@ import numpy as np
 #   Some helper functions
 ################################################################################
 
+
 def unique_states(training_data):
     unique = []
     for datum in training_data:
@@ -17,6 +18,7 @@ def unique_states(training_data):
         else:
             unique.append(datum[0].copy())
     return unique
+
 
 def contains(unique, candidate_state):
     for state in unique:

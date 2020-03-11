@@ -5,7 +5,7 @@ Created on May 17, 2016
 """
 
 
-from agent import Agent
+from .agent import Agent
 
 class AgentCmd(Agent):
     
@@ -21,19 +21,17 @@ class AgentCmd(Agent):
         self.agent_run_mode = params['agent_run_mode']
         self.agent_act_level = params['agent_act_level']
         self.agent_input_mode = params['cmd_input_mode']
-        
-        
+
     def state_to_action(self, state):
         """ Generate an action by getting input interactively from the command line """
 
         user_action = state['user_action']
         # get input from the command line
-        print "Turn", user_action['turn'] + 1, "sys:",
-        command = raw_input()
+        command = input("Turn" + str(user_action['turn'] + 1) + "sys:")
         
-        if self.agent_input_mode == 0: # nl
+        if self.agent_input_mode == 0:          # nl
             act_slot_value_response = self.generate_diaact_from_nl(command)
-        elif self.agent_input_mode == 1: # dia_act
+        elif self.agent_input_mode == 1:        # dia_act
             act_slot_value_response = self.parse_str_to_diaact(command)
         
         return {"act_slot_response": act_slot_value_response, "act_slot_value_response": act_slot_value_response}
@@ -45,8 +43,8 @@ class AgentCmd(Agent):
         act = annot
 
         if annot.find('(') > 0 and annot.find(')') > 0:
-            act = annot[0: annot.find('(')].strip(' ').lower() #Dia act
-            annot = annot[annot.find('(')+1:-1].strip(' ') #slot-value pairs
+            act = annot[0: annot.find('(')].strip(' ').lower()  # Dia act
+            annot = annot[annot.find('(')+1:-1].strip(' ')      # slot-value pairs
         else: annot = ''
         
         act_slot_value_response = {}
@@ -60,9 +58,9 @@ class AgentCmd(Agent):
             print ("Something wrong for your input dialog act! Please check your input ...")
 
         if len(annot) > 0: # slot-pair values: slot[val] = id
-            annot_segs = annot.split(';') #slot-value pairs
-            sent_slot_vals = {} # slot-pair real value
-            sent_rep_vals = {} # slot-pair id value
+            annot_segs = annot.split(';')       # slot-value pairs
+            sent_slot_vals = {}                 # slot-pair real value
+            sent_rep_vals = {}                  # slot-pair id value
 
             for annot_seg in annot_segs:
                 annot_seg = annot_seg.strip(' ')
@@ -70,11 +68,13 @@ class AgentCmd(Agent):
                 if annot_seg.find('=') > 0:
                     annot_slot = annot_seg[:annot_seg.find('=')] 
                     annot_val = annot_seg[annot_seg.find('=')+1:]
-                else: #requested
-                    annot_val = 'UNK' # for request
-                    if annot_slot == 'taskcomplete': annot_val = 'FINISH'
+                else:   # requested
+                    annot_val = 'UNK'   # for request
+                    if annot_slot == 'taskcomplete':
+                        annot_val = 'FINISH'
 
-                if annot_slot == 'mc_list': continue
+                if annot_slot == 'mc_list':
+                    continue
 
                 # slot may have multiple values
                 sent_slot_vals[annot_slot] = []
@@ -93,14 +93,14 @@ class AgentCmd(Agent):
                                 
                                 if result_annot_seg_slot_val == 'UNK': act_slot_value_response['request_slots'][result_annot_seg_slot] = 'UNK'
                                 else: act_slot_value_response['inform_slots'][result_annot_seg_slot] = result_annot_seg_slot_val
-                        else: # result={}
+                        else:   # result={}
                             pass
-                    else: # multi-choice or mc_list
+                    else:       # multi-choice or mc_list
                         annot_val_arr = annot_val.split('#')
                         act_slot_value_response['inform_slots'][annot_slot] = []
                         for annot_val_ele in annot_val_arr:
                             act_slot_value_response['inform_slots'][annot_slot].append(annot_val_ele)
-                else: # single choice
+                else:       # single choice
                     if annot_slot in self.slot_set.keys():
                         if annot_val == 'UNK':
                             act_slot_value_response['request_slots'][annot_slot] = 'UNK'
@@ -135,4 +135,3 @@ class AgentCmd(Agent):
                 agent_action['act_slot_value_response']['nl'] = ""
                 user_nlg_sentence = self.nlg_model.convert_diaact_to_nl(agent_action['act_slot_value_response'], 'agt')
                 agent_action['act_slot_response']['nl'] = user_nlg_sentence
-                

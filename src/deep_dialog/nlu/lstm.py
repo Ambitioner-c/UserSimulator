@@ -6,7 +6,7 @@ An LSTM decoder - add tanh after cell before output gate
 @author: xiul
 '''
 
-from seq_seq import SeqToSeq
+from .seq_seq import SeqToSeq
 from .utils import *
 
 
@@ -41,9 +41,9 @@ class lstm(SeqToSeq):
         Cellin = np.zeros((n, d))
         Cellout = np.zeros((n, d))
     
-        for t in xrange(n):
+        for t in range(n):
             prev = np.zeros(d) if t==0 else Hout[t-1]
-            Hin[t,0] = 1 # bias
+            Hin[t, 0] = 1   # bias
             Hin[t, 1:1+xd] = Ws[t]
             Hin[t, 1+xd:] = prev
             
@@ -106,7 +106,7 @@ class lstm(SeqToSeq):
         dCellin = np.zeros(Cellin.shape)
         dCellout = np.zeros(Cellout.shape)
         
-        for t in reversed(xrange(n)):
+        for t in reversed(range(n)):
             dIFOGf[t,2*d:3*d] = Cellout[t] * dHout[t]
             dCellout[t] = IFOGf[t,2*d:3*d] * dHout[t]
             
@@ -130,5 +130,5 @@ class lstm(SeqToSeq):
       
             if t > 0: dHout[t-1] += dHin[t, 1+Ws.shape[1]:]
         
-        #dXs = dXsh.dot(Wxh.transpose())  
+        # dXs = dXsh.dot(Wxh.transpose())
         return {'WLSTM':dWLSTM, 'Wd':dWd, 'bd':dbd}

@@ -1,8 +1,7 @@
-'''
+"""
 Created on Jun 18, 2016
-
 @author: xiul
-'''
+"""
 
 from .utils import *
 
@@ -23,12 +22,10 @@ class DQN:
         self.regularize = ['Wxh', 'Wd']
 
         self.step_cache = {}
-        
 
     def getStruct(self):
         return {'model': self.model, 'update': self.update, 'regularize': self.regularize}
-    
-    
+
     """Activation Function: Sigmoid, or tanh, or ReLu"""
     def fwdPass(self, Xs, params, **kwargs):
         predict_mode = kwargs.get('predict_mode', False)
@@ -109,8 +106,7 @@ class DQN:
         dXs = dXsh.dot(Wxh.transpose())
         
         return {'Wd': dWd, 'bd': dbd, 'Wxh':dWxh, 'bxh':dbxh}
-    
-    
+
     """batch Forward & Backward Pass"""
     def batchForward(self, batch, params, predict_mode = False):
         caches = []
@@ -156,13 +152,12 @@ class DQN:
         caches = cache['caches']
         
         grads = {}
-        for i in xrange(len(caches)):
+        for i in range(len(caches)):
             single_cache = caches[i]
             local_grads = self.bwdPass(dY[i], single_cache)
             mergeDicts(grads, local_grads) # add up the gradients wrt model parameters
             
         return grads
-
 
     """ cost function, returns cost and gradients for model """
     def costFunc(self, batch, params, clone_dqn):
@@ -225,7 +220,6 @@ class DQN:
         out['cost'] = {'reg_cost' : reg_cost, 'loss_cost' : loss_cost, 'total_cost' : loss_cost + reg_cost}
         out['grads'] = grads
         return out
-
 
     """ A single batch """
     def singleBatch(self, batch, params, clone_dqn):

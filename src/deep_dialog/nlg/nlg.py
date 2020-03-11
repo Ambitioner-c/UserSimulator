@@ -7,12 +7,14 @@ Created on Oct 17, 2016
 @author: xiul
 '''
 
-import cPickle as pickle
-import copy, argparse, json
+import pickle
+import copy
+import argparse
+import json
 import numpy as np
 
-from deep_dialog import dialog_config
-from deep_dialog.nlg.lstm_decoder_tanh import lstm_decoder_tanh
+import dialog_config
+from nlg.lstm_decoder_tanh import lstm_decoder_tanh
 
 
 class nlg:
@@ -46,7 +48,6 @@ class nlg:
             
         return sentence
 
-    
     def convert_diaact_to_nl(self, dia_act, turn_msg):
         """ Convert Dia_Act into NL: Rule + Model """
         
@@ -71,8 +72,7 @@ class nlg:
         
         if boolean_in == False: sentence = self.translate_diaact(dia_act)
         return sentence
-        
-        
+
     def translate_diaact(self, dia_act):
         """ prepare the diaact into vector representation, and generate the sentence by Model """
         
@@ -130,8 +130,7 @@ class nlg:
         sentence = self.post_process(pred_sentence, dia_act['inform_slots'], slot_dict)
             
         return sentence
-    
-    
+
     def load_nlg_model(self, model_path):
         """ load the trained NLG model """  
         
@@ -155,8 +154,7 @@ class nlg:
         self.act_dict = copy.deepcopy(model_params['act_dict'])
         self.inverse_word_dict = {self.template_word_dict[k]:k for k in self.template_word_dict.keys()}
         self.params = copy.deepcopy(model_params['params'])
-        
-    
+
     def diaact_to_nl_slot_filling(self, dia_act, template_sentence):
         """ Replace the slots with its values """
         
@@ -178,8 +176,7 @@ class nlg:
             sentence = dialog_config.I_DO_NOT_CARE
         
         return sentence
-    
-    
+
     def load_predefine_act_nl_pairs(self, path):
         """ Load some pre-defined Dia_Act&NL Pairs from file """
         

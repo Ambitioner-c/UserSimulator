@@ -5,7 +5,8 @@ Created on Jun 13, 2016
 '''
 
 from .utils import *
-import time, os
+import time
+import os
 
 
 class SeqToSeq:
@@ -14,16 +15,14 @@ class SeqToSeq:
     
     def get_struct(self):
         return {'model': self.model, 'update': self.update, 'regularize': self.regularize}
-    
-    
+
     """ Forward Function"""
     def fwdPass(self, Xs, params, **kwargs):
         pass
     
     def bwdPass(self, dY, cache):
         pass
-    
-    
+
     """ Batch Forward & Backward Pass"""
     def batchForward(self, ds, batch, params, predict_mode = False):
         caches = []
@@ -43,13 +42,12 @@ class SeqToSeq:
     def batchBackward(self, dY, cache):
         caches = cache['caches']
         grads = {}
-        for i in xrange(len(caches)):
+        for i in range(len(caches)):
             single_cache = caches[i]
             local_grads = self.bwdPass(dY[i], single_cache)
             mergeDicts(grads, local_grads) # add up the gradients wrt model parameters
             
         return grads
-
 
     """ Cost function, returns cost and gradients for model """
     def costFunc(self, ds, batch, params):
@@ -100,7 +98,6 @@ class SeqToSeq:
         out['grads'] = grads
         return out
 
-
     """ A single batch """
     def singleBatch(self, ds, batch, params):
         learning_rate = params.get('learning_rate', 0.0)
@@ -147,8 +144,7 @@ class SeqToSeq:
         out = {}
         out['cost'] = cost
         return out
-    
-    
+
     """ Evaluate on the dataset[split] """
     def eval(self, ds, split, params):
         acc = 0
@@ -193,6 +189,6 @@ class SeqToSeq:
         total_cost /= len(ds.split[split])
         accuracy = 0 if total == 0 else float(acc)/total
         
-        #print ("total_cost: %s, accuracy: %s" % (total_cost, accuracy))
+        # print ("total_cost: %s, accuracy: %s" % (total_cost, accuracy))
         result = {'cost': total_cost, 'accuracy': accuracy}
         return result

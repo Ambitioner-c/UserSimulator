@@ -11,10 +11,12 @@ a rule-based user simulator
 """
 
 from .usersim import UserSimulator
-import argparse, json, random, copy
+import argparse
+import json
+import random
+import copy
 
-from deep_dialog import dialog_config
-
+import dialog_config
 
 
 class RuleSimulator(UserSimulator):
@@ -54,13 +56,13 @@ class RuleSimulator(UserSimulator):
         self.episode_over = False
         self.dialog_status = dialog_config.NO_OUTCOME_YET
         
-        #self.goal =  random.choice(self.start_set)
+        # self.goal =  random.choice(self.start_set)
         self.goal = self._sample_goal(self.start_set)
         self.goal['request_slots']['ticket'] = 'UNK'
         self.constraint_check = dialog_config.CONSTRAINT_CHECK_FAILURE
   
         """ Debug: build a fake goal mannually """
-        #self.debug_falk_goal()
+        # self.debug_falk_goal()
         
         # sample first action
         user_action = self._sample_action()
@@ -115,10 +117,10 @@ class RuleSimulator(UserSimulator):
         
         sample_goal = random.choice(self.start_set[self.learning_phase])
         return sample_goal
-    
-    
+
     def corrupt(self, user_action):
-        """ Randomly corrupt an action with error probs (slot_err_probability and slot_err_mode) on Slot and Intent (intent_err_probability). """
+        """ Randomly corrupt an action with error probs (slot_err_probability and slot_err_mode)
+        on Slot and Intent (intent_err_probability). """
         
         for slot in user_action['inform_slots'].keys():
             slot_err_prob_sample = random.random()
@@ -150,11 +152,11 @@ class RuleSimulator(UserSimulator):
         """ Debug function: build a fake goal mannually (Can be moved in future) """
         
         self.goal['inform_slots'].clear()
-        #self.goal['inform_slots']['city'] = 'seattle'
+        # self.goal['inform_slots']['city'] = 'seattle'
         self.goal['inform_slots']['numberofpeople'] = '2'
-        #self.goal['inform_slots']['theater'] = 'amc pacific place 11 theater'
-        #self.goal['inform_slots']['starttime'] = '10:00 pm'
-        #self.goal['inform_slots']['date'] = 'tomorrow'
+        # self.goal['inform_slots']['theater'] = 'amc pacific place 11 theater'
+        # self.goal['inform_slots']['starttime'] = '10:00 pm'
+        # self.goal['inform_slots']['date'] = 'tomorrow'
         self.goal['inform_slots']['moviename'] = 'zoology'
         self.goal['inform_slots']['distanceconstraints'] = 'close to 95833'
         self.goal['request_slots'].clear()
@@ -206,8 +208,7 @@ class RuleSimulator(UserSimulator):
         # add NL to dia_act
         self.add_nl_to_action(response_action)                       
         return response_action, self.episode_over, self.dialog_status
-    
-    
+
     def response_confirm_answer(self, system_action):
         """ Response for Confirm_Answer (System Action) """
     
@@ -290,7 +291,7 @@ class RuleSimulator(UserSimulator):
                 else:
                     self.state['diaact'] = "inform"
                 self.state['inform_slots'][slot] = dialog_config.I_DO_NOT_CARE
-        else: # this case should not appear
+        else:   # this case should not appear
             if len(self.state['rest_slots']) > 0:
                 random_slot = random.choice(self.state['rest_slots'])
                 if random_slot in self.goal['inform_slots'].keys():
@@ -317,9 +318,9 @@ class RuleSimulator(UserSimulator):
     def response_inform(self, system_action):
         """ Response for Inform (System Action) """
         
-        if 'taskcomplete' in system_action['inform_slots'].keys(): # check all the constraints from agents with user goal
+        if 'taskcomplete' in system_action['inform_slots'].keys():  # check all the constraints from agents with user goal
             self.state['diaact'] = "thanks"
-            #if 'ticket' in self.state['rest_slots']: self.state['request_slots']['ticket'] = 'UNK'
+            # if 'ticket' in self.state['rest_slots']: self.state['request_slots']['ticket'] = 'UNK'
             self.constraint_check = dialog_config.CONSTRAINT_CHECK_SUCCESS
                     
             if system_action['inform_slots']['taskcomplete'] == dialog_config.NO_VALUE_MATCH:
@@ -364,7 +365,7 @@ class RuleSimulator(UserSimulator):
                                 self.state['diaact'] = "request"
                         else: # how to reply here?
                             self.state['diaact'] = "thanks" # replies "closing"? or replies "confirm_answer"
-                    else: # != value  Should we deny here or ?
+                    else:   # != value  Should we deny here or ?
                         ########################################################################
                         # TODO When agent informs(slot=value), where the value is different with the constraint in user goal, Should we deny or just inform the correct value?
                         ########################################################################
@@ -412,14 +413,11 @@ class RuleSimulator(UserSimulator):
                             self.state['diaact'] = "request"
                     else:
                         self.state['diaact'] = "thanks" # or replies "confirm_answer"
-        
-
 
 
 def main(params):
     user_sim = RuleSimulator()
     user_sim.initialize_episode()
-
 
 
 if __name__ == "__main__":
@@ -428,7 +426,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     params = vars(args)
 
-    print ("User Simulator Parameters:")
-    print (json.dumps(params, indent=2))
+    print("User Simulator Parameters:")
+    print(json.dumps(params, indent=2))
 
     main(params)

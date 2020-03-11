@@ -4,13 +4,15 @@ Created on May 25, 2016
 @author: xiul, t-zalipt
 """
 
-import copy, random
-from deep_dialog import dialog_config
-from agent import Agent
+import copy
+import random
+import dialog_config
+from .agent import Agent
 
 
 class InformAgent(Agent):
-    """ A simple agent to test the system. This agent should simply inform all the slots and then issue: taskcomplete. """
+    """ A simple agent to test the system.
+     This agent should simply inform all the slots and then issue: taskcomplete. """
 
     def initialize_episode(self):
         self.state = {}
@@ -36,7 +38,6 @@ class InformAgent(Agent):
         else:
             act_slot_response = {'diaact': "thanks", 'inform_slots': {}, 'request_slots': {}, 'turn': self.state['turn']}
         return {'act_slot_response': act_slot_response, 'act_slot_value_response': None}
-
 
 
 class RequestAllAgent(Agent):
@@ -68,7 +69,6 @@ class RequestAllAgent(Agent):
         return {'act_slot_response': act_slot_response, 'act_slot_value_response': None}
 
 
-
 class RandomAgent(Agent):
     """ A simple agent to test the interface. This agent should choose actions randomly. """
 
@@ -79,7 +79,6 @@ class RandomAgent(Agent):
         self.state['request_slots'] = {}
         self.state['turn'] = -1
 
-
     def state_to_action(self, state):
         """ Run current policy on state and produce an action """
         
@@ -89,9 +88,9 @@ class RandomAgent(Agent):
         return {'act_slot_response': act_slot_response, 'act_slot_value_response': None}
 
 
-
 class EchoAgent(Agent):
-    """ A simple agent that informs all requested slots, then issues inform(taskcomplete) when the user stops making requests. """
+    """ A simple agent that informs all requested slots,
+     then issues inform(taskcomplete) when the user stops making requests. """
 
     def initialize_episode(self):
         self.state = {}
@@ -99,7 +98,6 @@ class EchoAgent(Agent):
         self.state['inform_slots'] = {}
         self.state['request_slots'] = {}
         self.state['turn'] = -1
-
 
     def state_to_action(self, state):
         """ Run current policy on state and produce an action """
@@ -126,7 +124,8 @@ class EchoAgent(Agent):
 
 
 class RequestBasicsAgent(Agent):
-    """ A simple agent to test the system. This agent should simply request all the basic slots and then issue: thanks(). """
+    """ A simple agent to test the system.
+     This agent should simply request all the basic slots and then issue: thanks(). """
     
     def initialize_episode(self):
         self.state = {}

@@ -6,7 +6,7 @@ Created on May 18, 2016
 
 import copy
 from collections import defaultdict
-from deep_dialog import dialog_config
+import dialog_config
 
 class KBHelper:
     """ An assistant to fill in values for the agent (which knows about slots of values) """
@@ -32,7 +32,7 @@ class KBHelper:
         
         kb_results = self.available_results_from_kb(current_slots)
         if dialog_config.auto_suggest == 1:
-            print 'Number of movies in KB satisfying current constraints: ', len(kb_results)
+            print('Number of movies in KB satisfying current constraints: ', len(kb_results))
 
         filled_in_slots = {}
         if 'taskcomplete' in inform_slots_to_be_filled.keys():
@@ -64,7 +64,6 @@ class KBHelper:
                 filled_in_slots[slot] = dialog_config.NO_VALUE_MATCH #"NO VALUE MATCHES SNAFU!!!"
            
         return filled_in_slots
-
 
     def available_slot_values(self, slot, kb_results):
         """ Return the set of values available for the slot based on the current constraints """
@@ -163,9 +162,9 @@ class KBHelper:
         self.cached_kb_slot[query_idx_keys].append(kb_results)
         return kb_results
 
-    
     def database_results_for_agent(self, current_slots):
-        """ A dictionary of the number of results matching each current constraint. The agent needs this to decide what to do next. """
+        """ A dictionary of the number of results matching each current constraint.
+         The agent needs this to decide what to do next. """
 
         database_results ={} # { date:100, distanceconstraints:60, theater:30,  matching_all_constraints: 5}
         database_results = self.available_results_from_kb_for_slots(current_slots['inform_slots'])

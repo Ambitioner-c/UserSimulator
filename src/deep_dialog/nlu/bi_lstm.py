@@ -1,10 +1,8 @@
-'''
+"""
 Created on Jun 13, 2016
-
 An Bidirectional LSTM Seq2Seq model
-
 @author: xiul
-'''
+"""
 
 from .seq_seq import SeqToSeq
 from .utils import *
@@ -57,7 +55,7 @@ class biLSTM(SeqToSeq):
         bCellin = np.zeros((n, d))
         bCellout = np.zeros((n, d))
         
-        for t in xrange(n):
+        for t in range(n):
             prev = np.zeros(d) if t==0 else Hout[t-1]
             Hin[t,0] = 1 # bias
             Hin[t, 1:1+xd] = Ws[t]
@@ -176,7 +174,7 @@ class biLSTM(SeqToSeq):
         dbCellin = np.zeros(bCellin.shape)
         dbCellout = np.zeros(bCellout.shape)
         
-        for t in reversed(xrange(n)):
+        for t in reversed(range(n)):
             dIFOGf[t,2*d:3*d] = Cellout[t] * dHout[t]
             dCellout[t] = IFOGf[t,2*d:3*d] * dHout[t]
             

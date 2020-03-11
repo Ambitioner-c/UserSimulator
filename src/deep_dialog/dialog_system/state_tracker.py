@@ -39,7 +39,6 @@ class StateTracker:
         self.kb_result_dimension = 10   # TODO  REPLACE WITH REAL VALUE
         self.turn_count = 0
         self.kb_helper = KBHelper(movie_dictionary)
-        
 
     def initialize_episode(self):
         """ Initialize a new episode (dialog), flush the current state and tracked slots """
@@ -55,16 +54,13 @@ class StateTracker:
         self.current_slots['proposed_slots'] = {}
         self.current_slots['agent_request_slots'] = {}
 
-
     def dialog_history_vectors(self):
         """ Return the dialog history (both user and agent actions) in vector representation """
         return self.history_vectors
 
-
     def dialog_history_dictionaries(self):
         """  Return the dictionary representation of the dialog history (includes values) """
         return self.history_dictionaries
-
 
     def kb_results_for_state(self):
         """ Return the information about the database results based on the currently informed slots """
@@ -75,7 +71,6 @@ class StateTracker:
         # TODO turn results into vector (from dictionary)
         results = np.zeros((0, self.kb_result_dimension))
         return results
-        
 
     def get_state_for_agent(self):
         """ Get the state representatons to send to agent """
@@ -98,8 +93,7 @@ class StateTracker:
         """ get the kb_results for current state """
         kb_results = self.kb_helper.available_results_from_kb(self.current_slots)
         return kb_results
-    
-    
+
     def update(self, agent_action=None, user_action=None):
         """ Update the state based on the latest action """
 

@@ -4,12 +4,12 @@ Created on Jul 13, 2016
 @author: xiul
 '''
 
-import cPickle as pickle
+import pickle
 import copy
 import numpy as np
 
-from lstm import lstm
-from bi_lstm import biLSTM
+from .lstm import lstm
+from .bi_lstm import biLSTM
 
 
 class nlu:
@@ -43,7 +43,6 @@ class nlu:
         else:
             return None
 
-    
     def load_nlu_model(self, model_path):
         """ load the trained NLU model """  
         
@@ -68,8 +67,7 @@ class nlu:
         self.tag_set = copy.deepcopy(model_params['tag_set'])
         self.params = copy.deepcopy(model_params['params'])
         self.inverse_tag_dict = {self.tag_set[k]:k for k in self.tag_set.keys()}
-        
-           
+
     def parse_str_to_vector(self, string):
         """ Parse string into vector representations """
         
@@ -167,10 +165,7 @@ class nlu:
         
             # rule for request
             if len(diaact['request_slots'])>0: diaact['diaact'] = 'request'
-    
-    
-    
-    
+
     def diaact_penny_string(self, dia_act):
         """ Convert the Dia-Act into penny string """
         

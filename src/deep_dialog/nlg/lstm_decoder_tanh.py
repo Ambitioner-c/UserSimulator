@@ -1,10 +1,7 @@
-'''
+"""
 Created on Jun 13, 2016
-
 An LSTM decoder - add tanh after cell before output gate
-
-@author: xiul
-'''
+@author: xiul"""
 
 from .decoder import decoder
 from .utils import *
@@ -377,8 +374,7 @@ class lstm_decoder_tanh(decoder):
         dbah = np.sum(dDsh, axis=0, keepdims = True)
              
         return {'Wah':dWah, 'bah':dbah, 'WLSTM':dWLSTM, 'Wd':dWd, 'bd':dbd}
-    
-    
+
     """ Batch data representation """
     def prepare_input_rep(self, ds, batch, params):
         batch_reps = []
