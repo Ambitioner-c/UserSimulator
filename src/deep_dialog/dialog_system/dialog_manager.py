@@ -1,6 +1,5 @@
 """
 Created on May 17, 2016
-
 @author: xiul, t-zalipt
 """
 
@@ -10,7 +9,7 @@ import dialog_config
 
 
 class DialogManager:
-    """ A dialog manager to mediate the interaction between an agent and a customer """
+    """ 一个模仿代理器与用户之间交互的会话管理器 """
     
     def __init__(self, agent, user, act_set, slot_set, movie_dictionary):
         self.agent = agent
@@ -23,7 +22,7 @@ class DialogManager:
         self.episode_over = False
 
     def initialize_episode(self):
-        """ Refresh state for new dialog """
+        """ 为一个新的会话重新加载状态 """
         
         self.reward = 0
         self.episode_over = False
@@ -32,28 +31,28 @@ class DialogManager:
         self.state_tracker.update(user_action=self.user_action)
         
         if dialog_config.run_mode < 3:
-            print ("New episode, user goal:")
+            print("New episode, user goal:")
             print(json.dumps(self.user.goal, indent=2))
         self.print_function(user_action=self.user_action)
             
         self.agent.initialize_episode()
 
     def next_turn(self, record_training_data=True):
-        """ This function initiates each subsequent exchange between agent and user (agent first) """
+        """ 此函数启动代理和用户之间的每个后续交换（代理优先） """
         
         ########################################################################
-        #   CALL AGENT TO TAKE HER TURN
+        # CALL AGENT TO TAKE HER TURN
         ########################################################################
         self.state = self.state_tracker.get_state_for_agent()
         self.agent_action = self.agent.state_to_action(self.state)
         
         ########################################################################
-        #   Register AGENT action with the state_tracker
+        # 向state_tracker注册代理活动
         ########################################################################
         self.state_tracker.update(agent_action=self.agent_action)
         
-        self.agent.add_nl_to_action(self.agent_action) # add NL to Agent Dia_Act
-        self.print_function(agent_action = self.agent_action['act_slot_response'])
+        self.agent.add_nl_to_action(self.agent_action)  # add NL to Agent Dia_Act
+        self.print_function(agent_action=self.agent_action['act_slot_response'])
         
         ########################################################################
         #   CALL USER TO TAKE HER TURN
@@ -63,14 +62,14 @@ class DialogManager:
         self.reward = self.reward_function(dialog_status)
         
         ########################################################################
-        #   Update state tracker with latest user action
+        # 用最新的用户活动来更新state_tracker
         ########################################################################
         if self.episode_over is not True:
-            self.state_tracker.update(user_action = self.user_action)
-            self.print_function(user_action = self.user_action)
+            self.state_tracker.update(user_action=self.user_action)
+            self.print_function(user_action=self.user_action)
 
         ########################################################################
-        #  Inform agent of the outcome for this timestep (s_t, a_t, r, s_{t+1}, episode_over)
+        #  将此时间段的结果通知代理器 (s_t, a_t, r, s_{t+1}, episode_over)
         ########################################################################
         if record_training_data:
             self.agent.register_experience_replay_tuple(self.state, self.agent_action, self.reward, self.state_tracker.get_state_for_agent(), self.episode_over)
@@ -78,7 +77,7 @@ class DialogManager:
         return self.episode_over, self.reward
 
     def reward_function(self, dialog_status):
-        """ Reward Function 1: a reward function based on the dialog_status """
+        """ Reward Function 1: 基于dialog_status的奖励函数 """
         if dialog_status == dialog_config.FAILED_DIALOG:
             reward = -self.user.max_turn    # 10
         elif dialog_status == dialog_config.SUCCESS_DIALOG:
@@ -88,7 +87,7 @@ class DialogManager:
         return reward
     
     def reward_function_without_penalty(self, dialog_status):
-        """ Reward Function 2: a reward function without penalty on per turn and failure dialog """
+        """ Reward Function 2: 一个在每次回合和失败对话中无惩罚的奖励函数 """
         if dialog_status == dialog_config.FAILED_DIALOG:
             reward = 0
         elif dialog_status == dialog_config.SUCCESS_DIALOG:
@@ -98,7 +97,7 @@ class DialogManager:
         return reward
 
     def print_function(self, agent_action=None, user_action=None):
-        """ Print Function """
+        """ 输出函数 """
             
         if agent_action:
             if dialog_config.run_mode == 0:
@@ -122,7 +121,7 @@ class DialogManager:
                 print("Turn %d usr: %s, inform_slots: %s, request_slots: %s" % (user_action['turn'], user_action['diaact'], user_action['inform_slots'], user_action['request_slots']))
                 print("Turn %d usr: %s" % (user_action['turn'], user_action['nl']))
             
-            if self.agent.__class__.__name__ == 'AgentCmd': # command line agent
+            if self.agent.__class__.__name__ == 'AgentCmd':     # command line agent
                 user_request_slots = user_action['request_slots']
                 if 'ticket' in user_request_slots.keys():
                     del user_request_slots['ticket']

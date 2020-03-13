@@ -1,6 +1,5 @@
 """
 Created on May 18, 2016
-
 @author: xiul, t-zalipt
 """
 
@@ -8,26 +7,26 @@ import copy
 from collections import defaultdict
 import dialog_config
 
+
 class KBHelper:
-    """ An assistant to fill in values for the agent (which knows about slots of values) """
+    """ 为代理器填写值的助手（它知道值的槽） """
     
     def __init__(self, movie_dictionary):
-        """ Constructor for a KBHelper """
+        """ KBHelper的构造函数 """
         
         self.movie_dictionary = movie_dictionary
         self.cached_kb = defaultdict(list)
         self.cached_kb_slot = defaultdict(list)
 
-
     def fill_inform_slots(self, inform_slots_to_be_filled, current_slots):
-        """ Takes unfilled inform slots and current_slots, returns dictionary of filled informed slots (with values)
+        """ 获取未填充的通知槽和当前槽，返回已填充通知槽的字典（带值）
 
-        Arguments:
-        inform_slots_to_be_filled   --  Something that looks like {starttime:None, theater:None} where starttime and theater are slots that the agent needs filled
-        current_slots               --  Contains a record of all filled slots in the conversation so far - for now, just use current_slots['inform_slots'] which is a dictionary of the already filled-in slots
+        参数:
+        inform_slots_to_be_filled   --  就像{starttime:None, theater:None}这样，这里starttime和theater是代理器需要填充的槽
+        current_slots               --  包含对话中到目前为止已填充的所有槽的记录——现在,只使用current_slots['inform_slots']，这个已经填充槽的词典
 
-        Returns:
-        filled_in_slots             --  A dictionary of form {slot1:value1, slot2:value2} for each sloti in inform_slots_to_be_filled
+        返回:
+        filled_in_slots             --  每一个在inform_slots_to_be_filled的sloti中，形式为{slot1:value1, slot2:value2}的词典
         """
         
         kb_results = self.available_results_from_kb(current_slots)
@@ -74,7 +73,8 @@ class KBHelper:
                 slot_val = kb_results[movie_id][slot]
                 if slot_val in slot_values.keys():
                     slot_values[slot_val] += 1
-                else: slot_values[slot_val] = 1
+                else:
+                    slot_values[slot_val] = 1
         return slot_values
 
     def available_results_from_kb(self, current_slots):

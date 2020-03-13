@@ -2,42 +2,40 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dd20abbf-9c10-4f24-a777-0f88e9afb24a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/UserSimulator.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/agent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/agent_baselines.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/agent_baselines.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/agent_cmd.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/agent_cmd.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/agents/agent_dqn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/agents/agent_dqn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/dialog_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/dialog_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/dict_reader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/dict_reader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/kb_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/kb_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/state_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/state_tracker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/dialog_system/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/dialog_system/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/decoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/lstm_decoder_tanh.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/lstm_decoder_tanh.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/nlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/nlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlg/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlg/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/bi_lstm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/bi_lstm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/lstm.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/lstm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/nlu.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/nlu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/seq_seq.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/seq_seq.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/nlu/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/nlu/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/qlearning/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/qlearning/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/deep_dialog/qlearning/dqn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/qlearning/dqn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/qlearning/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/qlearning/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/usersims/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/usersims/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/usersims/usersim.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/usersims/usersim.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deep_dialog/usersims/usersim_rule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deep_dialog/usersims/usersim_rule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,7 +51,82 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager" selected="Python.test (1)">
+    <configuration name="run" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="UserSimulator" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="UserSimulator" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="UserSimulator" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/deep_dialog/nlu" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/deep_dialog/nlu/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.test (1)" />
+        <item itemvalue="Python.run" />
+        <item itemvalue="Python.test" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -78,7 +151,10 @@
       <option name="presentableId" value="Default" />
       <updated>1583914063898</updated>
       <workItem from="1583914065788" duration="2408000" />
-      <workItem from="1583916491786" duration="5035000" />
+      <workItem from="1583916491786" duration="7119000" />
+      <workItem from="1583923773641" duration="12653000" />
+      <workItem from="1584005107578" duration="23902000" />
+      <workItem from="1584086906690" duration="4126000" />
     </task>
     <task id="LOCAL-00001" summary="python2——&gt;python3">
       <created>1583917549918</created>
@@ -87,7 +163,21 @@
       <option name="project" value="LOCAL" />
       <updated>1583917549918</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="python2——&gt;python3">
+      <created>1583921591096</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1583921591096</updated>
+    </task>
+    <task id="LOCAL-00003" summary="python2——&gt;python3">
+      <created>1583921681310</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1583921681310</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -98,21 +188,66 @@
     <option name="LAST_COMMIT_MESSAGE" value="python2——&gt;python3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="278" y="43" width="800" height="678" key="#Inspections" timestamp="1583918809050">
+    <state x="278" y="43" width="800" height="678" key="#Inspections" timestamp="1583951718924">
       <screen x="0" y="26" width="1366" height="712" />
     </state>
-    <state x="278" y="43" width="800" height="678" key="#Inspections/0.26.1366.712@0.26.1366.712" timestamp="1583918809050" />
-    <state x="244" y="26" width="867" height="712" key="CommitChangelistDialog2" timestamp="1583921590950">
+    <state x="278" y="43" width="800" height="678" key="#Inspections/0.26.1366.712@0.26.1366.712" timestamp="1583951718924" />
+    <state x="2" y="26" width="1343" height="712" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1583951865388">
       <screen x="0" y="26" width="1366" height="712" />
     </state>
-    <state x="244" y="26" width="867" height="712" key="CommitChangelistDialog2/0.26.1366.712@0.26.1366.712" timestamp="1583921590950" />
-    <state x="160" y="26" width="1027" height="712" key="SettingsEditor" timestamp="1583918857064">
+    <state x="2" y="26" width="1343" height="712" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.26.1366.712@0.26.1366.712" timestamp="1583951865388" />
+    <state x="244" y="26" width="867" height="712" key="CommitChangelistDialog2" timestamp="1583921681209">
       <screen x="0" y="26" width="1366" height="712" />
     </state>
-    <state x="160" y="26" width="1027" height="712" key="SettingsEditor/0.26.1366.712@0.26.1366.712" timestamp="1583918857064" />
-    <state x="278" y="116" width="800" height="532" key="Vcs.Push.Dialog.v2" timestamp="1583921597486">
+    <state x="244" y="26" width="867" height="712" key="CommitChangelistDialog2/0.26.1366.712@0.26.1366.712" timestamp="1583921681209" />
+    <state width="1312" height="116" key="GridCell.Tab.0.bottom" timestamp="1584043795056">
       <screen x="0" y="26" width="1366" height="712" />
     </state>
-    <state x="278" y="116" width="800" height="532" key="Vcs.Push.Dialog.v2/0.26.1366.712@0.26.1366.712" timestamp="1583921597486" />
+    <state width="1312" height="116" key="GridCell.Tab.0.bottom/0.26.1366.712@0.26.1366.712" timestamp="1584043795056" />
+    <state width="1312" height="116" key="GridCell.Tab.0.center" timestamp="1584043795055">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state width="1312" height="116" key="GridCell.Tab.0.center/0.26.1366.712@0.26.1366.712" timestamp="1584043795055" />
+    <state width="1312" height="116" key="GridCell.Tab.0.left" timestamp="1584043795055">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state width="1312" height="116" key="GridCell.Tab.0.left/0.26.1366.712@0.26.1366.712" timestamp="1584043795055" />
+    <state width="1312" height="116" key="GridCell.Tab.0.right" timestamp="1584043795055">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state width="1312" height="116" key="GridCell.Tab.0.right/0.26.1366.712@0.26.1366.712" timestamp="1584043795055" />
+    <state width="1312" height="116" key="GridCell.Tab.1.bottom" timestamp="1584043795058">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state width="1312" height="116" key="GridCell.Tab.1.bottom/0.26.1366.712@0.26.1366.712" timestamp="1584043795058" />
+    <state width="1312" height="116" key="GridCell.Tab.1.center" timestamp="1584043795058">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state width="1312" height="116" key="GridCell.Tab.1.center/0.26.1366.712@0.26.1366.712" timestamp="1584043795058" />
+    <state width="1312" height="116" key="GridCell.Tab.1.left" timestamp="1584043795057">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state width="1312" height="116" key="GridCell.Tab.1.left/0.26.1366.712@0.26.1366.712" timestamp="1584043795057" />
+    <state width="1312" height="116" key="GridCell.Tab.1.right" timestamp="1584043795058">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state width="1312" height="116" key="GridCell.Tab.1.right/0.26.1366.712@0.26.1366.712" timestamp="1584043795058" />
+    <state x="160" y="26" width="1027" height="712" key="SettingsEditor" timestamp="1584006241417">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state x="160" y="26" width="1027" height="712" key="SettingsEditor/0.26.1366.712@0.26.1366.712" timestamp="1584006241417" />
+    <state x="278" y="116" width="800" height="532" key="Vcs.Push.Dialog.v2" timestamp="1583921686503">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state x="278" y="116" width="800" height="532" key="Vcs.Push.Dialog.v2/0.26.1366.712@0.26.1366.712" timestamp="1583921686503" />
+    <state x="347" y="27" width="672" height="676" key="search.everywhere.popup" timestamp="1584011331207">
+      <screen x="0" y="26" width="1366" height="712" />
+    </state>
+    <state x="347" y="27" width="672" height="676" key="search.everywhere.popup/0.26.1366.712@0.26.1366.712" timestamp="1584011331207" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/UserSimulator$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1584038411317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/UserSimulator$test.coverage" NAME="test Coverage Results" MODIFIED="1584007248169" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/deep_dialog/nlu" />
+    <SUITE FILE_PATH="coverage/UserSimulator$run.coverage" NAME="run Coverage Results" MODIFIED="1584008555331" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>

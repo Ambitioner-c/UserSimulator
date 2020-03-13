@@ -1,12 +1,11 @@
 """
 Created on May 18, 2016
-
 @author: xiul, t-zalipt
 """
 
 
 def text_to_dict(path):
-    """ Read in a text file as a dictionary where keys are text and values are indices (line numbers) """
+    """ 以字典形式读入文本文件，其中键是文本，值是索引（行号） """
     
     slot_set = {}
     with open(path, 'r') as f:

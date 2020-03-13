@@ -1,16 +1,16 @@
 """
 Created on May 17, 2016
-
 @author: xiul, t-zalipt
 """
 
 
 from .agent import Agent
 
+
 class AgentCmd(Agent):
     
     def __init__(self, movie_dict=None, act_set=None, slot_set=None, params=None):
-        """ Constructor for the Agent class """
+        """ 代理器类的构造函数 """
         
         self.movie_dict = movie_dict
         self.act_set = act_set
@@ -23,10 +23,10 @@ class AgentCmd(Agent):
         self.agent_input_mode = params['cmd_input_mode']
 
     def state_to_action(self, state):
-        """ Generate an action by getting input interactively from the command line """
+        """ 通过获取从命令行的直接输入，来生成一个活动。 """
 
         user_action = state['user_action']
-        # get input from the command line
+        # 从命令行中获取输入
         command = input("Turn" + str(user_action['turn'] + 1) + "sys:")
         
         if self.agent_input_mode == 0:          # nl
@@ -37,7 +37,7 @@ class AgentCmd(Agent):
         return {"act_slot_response": act_slot_value_response, "act_slot_value_response": act_slot_value_response}
     
     def parse_str_to_diaact(self, string):
-        """ Parse string into Dia_Act Form """
+        """ 将字符串解析为Dia_Act形式 """
         
         annot = string.strip(' ').strip('\n').strip('\r')
         act = annot
@@ -45,19 +45,20 @@ class AgentCmd(Agent):
         if annot.find('(') > 0 and annot.find(')') > 0:
             act = annot[0: annot.find('(')].strip(' ').lower()  # Dia act
             annot = annot[annot.find('(')+1:-1].strip(' ')      # slot-value pairs
-        else: annot = ''
+        else:
+            annot = ''
         
         act_slot_value_response = {}
         act_slot_value_response['diaact'] = 'UNK'
         act_slot_value_response['inform_slots'] = {}
         act_slot_value_response['request_slots'] = {}
         
-        if act in self.act_set: # dialog_config.all_acts
+        if act in self.act_set:     # dialog_config.all_acts
             act_slot_value_response['diaact'] = act
         else:
-            print ("Something wrong for your input dialog act! Please check your input ...")
+            print("Something wrong for your input dialog act! Please check your input ...")
 
-        if len(annot) > 0: # slot-pair values: slot[val] = id
+        if len(annot) > 0:          # slot-pair values: slot[val] = id
             annot_segs = annot.split(';')       # slot-value pairs
             sent_slot_vals = {}                 # slot-pair real value
             sent_rep_vals = {}                  # slot-pair id value
@@ -76,7 +77,7 @@ class AgentCmd(Agent):
                 if annot_slot == 'mc_list':
                     continue
 
-                # slot may have multiple values
+                # 槽可能会有多个值
                 sent_slot_vals[annot_slot] = []
                 sent_rep_vals[annot_slot] = []
 
@@ -85,14 +86,16 @@ class AgentCmd(Agent):
 
                     if annot_slot == 'result':
                         result_annot_seg_arr = annot_val.strip(' ').split('&')
-                        if len(annot_val.strip(' '))> 0:
+                        if len(annot_val.strip(' ')) > 0:
                             for result_annot_seg_item in result_annot_seg_arr:
                                 result_annot_seg_arr = result_annot_seg_item.strip(' ').split('=')
                                 result_annot_seg_slot = result_annot_seg_arr[0]
                                 result_annot_seg_slot_val = result_annot_seg_arr[1]
                                 
-                                if result_annot_seg_slot_val == 'UNK': act_slot_value_response['request_slots'][result_annot_seg_slot] = 'UNK'
-                                else: act_slot_value_response['inform_slots'][result_annot_seg_slot] = result_annot_seg_slot_val
+                                if result_annot_seg_slot_val == 'UNK':
+                                    act_slot_value_response['request_slots'][result_annot_seg_slot] = 'UNK'
+                                else:
+                                    act_slot_value_response['inform_slots'][result_annot_seg_slot] = result_annot_seg_slot_val
                         else:   # result={}
                             pass
                     else:       # multi-choice or mc_list
@@ -110,7 +113,7 @@ class AgentCmd(Agent):
         return act_slot_value_response
     
     def generate_diaact_from_nl(self, string):
-        """ Generate Dia_Act Form with NLU """
+        """ 从NLU中生成Dia_Act """
         
         agent_action = {}
         agent_action['diaact'] = 'UNK'
@@ -124,7 +127,7 @@ class AgentCmd(Agent):
         return agent_action
     
     def add_nl_to_action(self, agent_action):
-        """ Add NL to Agent Dia_Act """
+        """ 将NL添加到代理器的Dia_Act中 """
         
         if self.agent_input_mode == 1:
             if agent_action['act_slot_response']:

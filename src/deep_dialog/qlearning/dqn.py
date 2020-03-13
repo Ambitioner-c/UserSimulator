@@ -137,7 +137,7 @@ class DQN:
             Ys.append(Y)
             
             tXs = x[3]
-            tY, t_cache = clone_dqn.fwdPass(tXs, params, predict_mode = False)
+            tY, t_cache = clone_dqn.fwd_pass(tXs, params, predict_mode = False)
                 
             tYs.append(tY)
             

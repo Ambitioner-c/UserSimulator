@@ -1,8 +1,7 @@
-'''
+"""
 Created on Jun 13, 2016
-
 @author: xiul
-'''
+"""
 
 from .utils import *
 import time
@@ -17,89 +16,90 @@ class SeqToSeq:
         return {'model': self.model, 'update': self.update, 'regularize': self.regularize}
 
     """ Forward Function"""
-    def fwdPass(self, Xs, params, **kwargs):
+    def fwd_pass(self, x_s, params, **kwargs):
         pass
     
-    def bwdPass(self, dY, cache):
+    def bwd_pass(self, d_y, cache):
         pass
 
-    """ Batch Forward & Backward Pass"""
-    def batchForward(self, ds, batch, params, predict_mode = False):
+    """ 批量奖励 & 逆推法 """
+    def batch_forward(self, ds, batch, params, predict_mode=False):
         caches = []
-        Ys = []
-        for i,x in enumerate(batch):
-            Y, out_cache = self.fwdPass(x, params, predict_mode = predict_mode)
+        ys = []
+        for i, x in enumerate(batch):
+            y, out_cache = self.fwd_pass(x, params, predict_mode=predict_mode)
             caches.append(out_cache)
-            Ys.append(Y)
+            ys.append(y)
            
-        # back up information for efficient backprop
+        # 有效支撑的备份信息
         cache = {}
         if not predict_mode:
             cache['caches'] = caches
 
-        return Ys, cache
+        return ys, cache
     
-    def batchBackward(self, dY, cache):
+    def batch_backward(self, d_y, cache):
         caches = cache['caches']
         grads = {}
         for i in range(len(caches)):
             single_cache = caches[i]
-            local_grads = self.bwdPass(dY[i], single_cache)
-            mergeDicts(grads, local_grads) # add up the gradients wrt model parameters
+            local_grads = self.bwd_pass(d_y[i], single_cache)
+            merge_dicts(grads, local_grads)     # 将梯度与模型参数相加
             
-        return grads
+        return
 
-    """ Cost function, returns cost and gradients for model """
-    def costFunc(self, ds, batch, params):
-        regc = params['reg_cost'] # regularization cost
+    """ 成本函数，返回模型的成本和梯度 """
+    def cost_func(self, ds, batch, params):
+        reg_c = params['reg_cost']   # regularization cost
         
         # batch forward RNN
-        Ys, caches = self.batchForward(ds, batch, params, predict_mode = False)
+        ys, caches = self.batch_forward(ds, batch, params, predict_mode=False)
         
         loss_cost = 0.0
         smooth_cost = 1e-15
-        dYs = []
+        d_ys = []
         
-        for i,x in enumerate(batch):
+        for i, x in enumerate(batch):
             labels = np.array(x['tags_rep'], dtype=int)
             
             # fetch the predicted probabilities
-            Y = Ys[i]
+            Y = ys[i]
             maxes = np.amax(Y, axis=1, keepdims=True)
-            e = np.exp(Y - maxes) # for numerical stability shift into good numerical range
+            e = np.exp(Y - maxes)   # for numerical stability shift into good numerical range
             P = e/np.sum(e, axis=1, keepdims=True)
             
             # Cross-Entropy Cross Function
             loss_cost += -np.sum(np.log(smooth_cost + P[range(len(labels)), labels]))
             
-            for iy,y in enumerate(labels):
-                P[iy,y] -= 1 # softmax derivatives
-            dYs.append(P)
+            for iy, y in enumerate(labels):
+                P[iy, y] -= 1   # softmax derivatives
+            d_ys.append(P)
             
         # backprop the RNN
-        grads = self.batchBackward(dYs, caches)
+        grads = self.batch_backward(d_ys, caches)
         
         # add L2 regularization cost and gradients
         reg_cost = 0.0
-        if regc > 0:    
+        if reg_c > 0:
             for p in self.regularize:
                 mat = self.model[p]
-                reg_cost += 0.5*regc*np.sum(mat*mat)
-                grads[p] += regc*mat
+                reg_cost += 0.5*reg_c*np.sum(mat*mat)
+                grads[p] += reg_c*mat
 
         # normalize the cost and gradient by the batch size
         batch_size = len(batch)
         reg_cost /= batch_size
         loss_cost /= batch_size
-        for k in grads: grads[k] /= batch_size
+        for k in grads:
+            grads[k] /= batch_size
 
         out = {}
-        out['cost'] = {'reg_cost' : reg_cost, 'loss_cost' : loss_cost, 'total_cost' : loss_cost + reg_cost}
+        out['cost'] = {'reg_cost': reg_cost, 'loss_cost': loss_cost, 'total_cost': loss_cost + reg_cost}
         out['grads'] = grads
         return out
 
     """ A single batch """
-    def singleBatch(self, ds, batch, params):
+    def single_batch(self, ds, batch, params):
         learning_rate = params.get('learning_rate', 0.0)
         decay_rate = params.get('decay_rate', 0.999)
         momentum = params.get('momentum', 0)
@@ -108,10 +108,10 @@ class SeqToSeq:
         sdg_type = params.get('sdgtype', 'rmsprop')
 
         for u in self.update:
-            if not u in self.step_cache: 
+            if u not in self.step_cache:
                 self.step_cache[u] = np.zeros(self.model[u].shape)
         
-        cg = self.costFunc(ds, batch, params)
+        cg = self.cost_func(ds, batch, params)
         
         cost = cg['cost']
         grads = cg['grads']
@@ -157,13 +157,13 @@ class SeqToSeq:
             res_filename = 'res_%s_[%s].txt' % (params['model'], time.time())
             res_filepath = os.path.join(params['test_res_dir'], res_filename)
             res = open(res_filepath, 'w')
-            inverse_tag_dict = {ds.data['tag_set'][k]:k for k in ds.data['tag_set'].keys()}
+            inverse_tag_dict = {ds.data['tag_set'][k]: k for k in ds.data['tag_set'].keys()}
             
         for i, ele in enumerate(ds.split[split]):
-            Ys, cache = self.fwdPass(ele, params, predict_model=True)
+            ys, cache = self.fwd_pass(ele, params, predict_model=True)
             
-            maxes = np.amax(Ys, axis=1, keepdims=True)
-            e = np.exp(Ys - maxes) # for numerical stability shift into good numerical range
+            maxes = np.amax(ys, axis=1, keepdims=True)
+            e = np.exp(ys - maxes) # for numerical stability shift into good numerical range
             probs = e/np.sum(e, axis=1, keepdims=True)
             
             labels = np.array(ele['tags_rep'], dtype=int)
@@ -183,7 +183,8 @@ class SeqToSeq:
                 
                 if split == 'test':
                     res.write('%s %s %s %s\n' % (tokens[index], 'NA', real_tags[index], inverse_tag_dict[pred_words_indices[index]]))
-            if split == 'test': res.write('\n')
+            if split == 'test':
+                res.write('\n')
             total += len(labels)
             
         total_cost /= len(ds.split[split])

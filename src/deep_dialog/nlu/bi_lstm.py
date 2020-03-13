@@ -12,15 +12,15 @@ class biLSTM(SeqToSeq):
     def __init__(self, input_size, hidden_size, output_size):
         self.model = {}
         # Recurrent weights: take x_t, h_{t-1}, and bias unit, and produce the 3 gates and the input to cell signal
-        self.model['WLSTM'] = initWeights(input_size + hidden_size + 1, 4*hidden_size)
-        self.model['bWLSTM'] = initWeights(input_size + hidden_size + 1, 4*hidden_size)
+        self.model['WLSTM'] = init_weights(input_size + hidden_size + 1, 4 * hidden_size)
+        self.model['bWLSTM'] = init_weights(input_size + hidden_size + 1, 4 * hidden_size)
         
         # Hidden-Output Connections
-        self.model['Wd'] = initWeights(hidden_size, output_size)*0.1
+        self.model['Wd'] = init_weights(hidden_size, output_size) * 0.1
         self.model['bd'] = np.zeros((1, output_size))
         
         # Backward Hidden-Output Connections
-        self.model['bWd'] = initWeights(hidden_size, output_size)*0.1
+        self.model['bWd'] = init_weights(hidden_size, output_size) * 0.1
         self.model['bbd'] = np.zeros((1, output_size))
 
         self.update = ['WLSTM', 'bWLSTM', 'Wd', 'bd', 'bWd', 'bbd']
@@ -29,46 +29,47 @@ class biLSTM(SeqToSeq):
         self.step_cache = {}
         
     """ Activation Function: Sigmoid, or tanh, or ReLu """
-    def fwdPass(self, Xs, params, **kwargs):
+    def fwd_pass(self, x_s, params, **kwargs):
         predict_mode = kwargs.get('predict_mode', False)
         
-        Ws = Xs['word_vectors']
+        Ws = x_s['word_vectors']
         
         WLSTM = self.model['WLSTM']
         bWLSTM = self.model['bWLSTM']
         
         n, xd = Ws.shape
         
-        d = self.model['Wd'].shape[0] # size of hidden layer
-        Hin = np.zeros((n, WLSTM.shape[0])) # xt, ht-1, bias
+        d = self.model['Wd'].shape[0]           # size of hidden layer
+        Hin = np.zeros((n, WLSTM.shape[0]))     # xt, ht-1, bias
         Hout = np.zeros((n, d))
         IFOG = np.zeros((n, 4*d))
-        IFOGf = np.zeros((n, 4*d)) # after nonlinearity
+        IFOGf = np.zeros((n, 4*d))              # after nonlinearity
         Cellin = np.zeros((n, d))
         Cellout = np.zeros((n, d))
         
         # backward
-        bHin = np.zeros((n, WLSTM.shape[0])) # xt, ht-1, bias
+        bHin = np.zeros((n, WLSTM.shape[0]))    # xt, ht-1, bias
         bHout = np.zeros((n, d))
         bIFOG = np.zeros((n, 4*d))
-        bIFOGf = np.zeros((n, 4*d)) # after nonlinearity
+        bIFOGf = np.zeros((n, 4*d))             # after nonlinearity
         bCellin = np.zeros((n, d))
         bCellout = np.zeros((n, d))
         
         for t in range(n):
-            prev = np.zeros(d) if t==0 else Hout[t-1]
-            Hin[t,0] = 1 # bias
+            prev = np.zeros(d) if t == 0 else Hout[t-1]
+            Hin[t, 0] = 1                       # bias
             Hin[t, 1:1+xd] = Ws[t]
             Hin[t, 1+xd:] = prev
             
             # compute all gate activations. dots:
             IFOG[t] = Hin[t].dot(WLSTM)
             
-            IFOGf[t, :3*d] = 1/(1+np.exp(-IFOG[t, :3*d])) # sigmoids; these are three gates
-            IFOGf[t, 3*d:] = np.tanh(IFOG[t, 3*d:]) # tanh for input value
+            IFOGf[t, :3*d] = 1/(1+np.exp(-IFOG[t, :3*d]))   # sigmoids; these are three gates
+            IFOGf[t, 3*d:] = np.tanh(IFOG[t, 3*d:])         # tanh for input value
             
             Cellin[t] = IFOGf[t, :d] * IFOGf[t, 3*d:]
-            if t>0: Cellin[t] += IFOGf[t, d:2*d]*Cellin[t-1]
+            if t > 0:
+                Cellin[t] += IFOGf[t, d:2*d]*Cellin[t-1]
             
             Cellout[t] = np.tanh(Cellin[t])
             Hout[t] = IFOGf[t, 2*d:3*d] * Cellout[t]
@@ -85,7 +86,8 @@ class biLSTM(SeqToSeq):
             bIFOGf[b_t, 3*d:] = np.tanh(bIFOG[b_t, 3*d:])
             
             bCellin[b_t] = bIFOGf[b_t, :d] * bIFOGf[b_t, 3*d:]
-            if t>0: bCellin[b_t] += bIFOGf[b_t, d:2*d] * bCellin[b_t+1]
+            if t > 0:
+                bCellin[b_t] += bIFOGf[b_t, d:2*d] * bCellin[b_t+1]
             
             bCellout[b_t] = np.tanh(bCellin[b_t])
             bHout[b_t] = bIFOGf[b_t, 2*d:3*d]*bCellout[b_t]
@@ -125,7 +127,7 @@ class biLSTM(SeqToSeq):
         return Y, cache
     
     """ Backward Pass """
-    def bwdPass(self, dY, cache):
+    def bwd_pass(self, d_y, cache):
         Wd = cache['Wd']
         Hout = cache['Hout']
         IFOG = cache['IFOG']
@@ -149,14 +151,14 @@ class biLSTM(SeqToSeq):
         n,d = Hout.shape
 
         # backprop the hidden-output layer
-        dWd = Hout.transpose().dot(dY)
-        dbd = np.sum(dY, axis=0, keepdims = True)
-        dHout = dY.dot(Wd.transpose())
+        dWd = Hout.transpose().dot(d_y)
+        dbd = np.sum(d_y, axis=0, keepdims = True)
+        dHout = d_y.dot(Wd.transpose())
         
         # backprop the backward hidden-output layer
-        dbWd = bHout.transpose().dot(dY)
-        dbbd = np.sum(dY, axis=0, keepdims = True)
-        dbHout = dY.dot(bWd.transpose())
+        dbWd = bHout.transpose().dot(d_y)
+        dbbd = np.sum(d_y, axis=0, keepdims = True)
+        dbHout = d_y.dot(bWd.transpose())
         
         # backprop the LSTM (forward layer)
         dIFOG = np.zeros(IFOG.shape)

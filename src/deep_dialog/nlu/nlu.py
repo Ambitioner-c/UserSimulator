@@ -1,14 +1,13 @@
-'''
+"""
 Created on Jul 13, 2016
-
 @author: xiul
-'''
+"""
 
 import pickle
 import copy
 import numpy as np
 
-from .lstm import lstm
+from .lstm import LSTM
 from .bi_lstm import biLSTM
 
 
@@ -23,14 +22,15 @@ class nlu:
             tmp_annot = annot.strip('.').strip('?').strip(',').strip('!') 
             
             rep = self.parse_str_to_vector(tmp_annot)
-            Ys, cache = self.model.fwdPass(rep, self.params, predict_model=True) # default: True
+            Ys, cache = self.model.fwd_pass(rep, self.params, predict_model=True)       # default: True
             
             maxes = np.amax(Ys, axis=1, keepdims=True)
-            e = np.exp(Ys - maxes) # for numerical stability shift into good numerical range
+            e = np.exp(Ys - maxes)      # 为了使数值稳定，应移到良好的数值范围内
             probs = e/np.sum(e, axis=1, keepdims=True)
-            if np.all(np.isnan(probs)): probs = np.zeros(probs.shape)
+            if np.all(np.isnan(probs)):
+                probs = np.zeros(probs.shape)
             
-            # special handling with intent label
+            # 对意图标签的特殊处理
             for tag_id in self.inverse_tag_dict.keys():
                 if self.inverse_tag_dict[tag_id].startswith('B-') or self.inverse_tag_dict[tag_id].startswith('I-') or self.inverse_tag_dict[tag_id] == 'O':
                     probs[-1][tag_id] = 0
@@ -46,15 +46,15 @@ class nlu:
     def load_nlu_model(self, model_path):
         """ load the trained NLU model """  
         
-        model_params = pickle.load(open(model_path, 'rb'))
+        model_params = pickle.load(open(model_path, 'rb'), encoding='iso-8859-1')
     
         hidden_size = model_params['model']['Wd'].shape[0]
         output_size = model_params['model']['Wd'].shape[1]
     
-        if model_params['params']['model'] == 'lstm': # lstm_
+        if model_params['params']['model'] == 'lstm':           # lstm_
             input_size = model_params['model']['WLSTM'].shape[0] - hidden_size - 1
-            rnnmodel = lstm(input_size, hidden_size, output_size)
-        elif model_params['params']['model'] == 'bi_lstm': # bi_lstm
+            rnnmodel = LSTM(input_size, hidden_size, output_size)
+        elif model_params['params']['model'] == 'bi_lstm':      # bi_lstm
             input_size = model_params['model']['WLSTM'].shape[0] - hidden_size - 1
             rnnmodel = biLSTM(input_size, hidden_size, output_size)
            
@@ -66,7 +66,7 @@ class nlu:
         self.act_dict = copy.deepcopy(model_params['act_dict'])
         self.tag_set = copy.deepcopy(model_params['tag_set'])
         self.params = copy.deepcopy(model_params['params'])
-        self.inverse_tag_dict = {self.tag_set[k]:k for k in self.tag_set.keys()}
+        self.inverse_tag_dict = {self.tag_set[k]: k for k in self.tag_set.keys()}
 
     def parse_str_to_vector(self, string):
         """ Parse string into vector representations """
@@ -76,10 +76,12 @@ class nlu:
         
         vecs = np.zeros((len(words), len(self.word_dict)))
         for w_index, w in enumerate(words):
-            if w.endswith(',') or w.endswith('?'): w = w[0:-1]
+            if w.endswith(',') or w.endswith('.') or w.endswith('?'):
+                w = w[0:-1]
             if w in self.word_dict.keys():
                 vecs[w_index][self.word_dict[w]] = 1
-            else: vecs[w_index][self.word_dict['unk']] = 1
+            else:
+                vecs[w_index][self.word_dict['unk']] = 1
         
         rep = {}
         rep['word_vectors'] = vecs
@@ -104,7 +106,7 @@ class nlu:
     
         slot_val_dict = {}
     
-        while index<(len(nlu_vector)-1): # except last Intent tag
+        while index < (len(nlu_vector)-1):  # except last Intent tag
             cur_tag = nlu_vector[index]
             if cur_tag == 'O' and pre_tag.startswith('B-'):
                 slot = pre_tag.split('-')[1]
@@ -124,7 +126,8 @@ class nlu:
                 slot_val_str = ' '.join(words[pre_tag_index:index])
                 slot_val_dict[slot] = slot_val_str
                
-            if cur_tag.startswith('B-'): pre_tag_index = index
+            if cur_tag.startswith('B-'):
+                pre_tag_index = index
         
             pre_tag = cur_tag
             index += 1
@@ -164,7 +167,8 @@ class nlu:
                 diaact['inform_slots']['taskcomplete'] = 'PLACEHOLDER'
         
             # rule for request
-            if len(diaact['request_slots'])>0: diaact['diaact'] = 'request'
+            if len(diaact['request_slots']) > 0:
+                diaact['diaact'] = 'request'
 
     def diaact_penny_string(self, dia_act):
         """ Convert the Dia-Act into penny string """
@@ -186,6 +190,7 @@ class nlu:
                 slot_val_str += "}"
             penny_str += slot_val_str + ";"
     
-        if penny_str[-1] == ";": penny_str = penny_str[:-1]
+        if penny_str[-1] == ";":
+            penny_str = penny_str[:-1]
         penny_str += ")"
         return penny_str

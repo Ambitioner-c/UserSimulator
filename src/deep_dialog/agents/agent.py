@@ -1,20 +1,18 @@
 """
 Created on May 17, 2016
-
 @author: xiul, t-zalipt
 """
 
 
 class Agent:
-    """ Prototype for all agent classes, defining the interface they must uphold """
-
+    """所有代理类的原型，定义了他们必须支持的接口"""
     def __init__(self, movie_dict=None, act_set=None, slot_set=None, params=None):
-        """ Constructor for the Agent class
+        """ 代理类的构造函数
 
-        Arguments:
-        movie_dict      --  This is here now but doesn't belong - the agent doesn't know about movies
-        act_set         --  The set of acts. #### Shouldn't this be more abstract? Don't we want our agent to be more broadly usable?
-        slot_set        --  The set of available slots
+        参数:
+        movie_dict      --  这个东西现在在这里但并不属于这里——代理器并不知道什么电影
+        act_set         --  活动集  #### 这个集合不应该更抽象一点吗？我们不想让我们的代理器更广泛地使用吗？
+        slot_set        --  可用的槽集
         """
         self.movie_dict = movie_dict
         self.act_set = act_set
@@ -26,26 +24,30 @@ class Agent:
         self.agent_run_mode = params['agent_run_mode']
         self.agent_act_level = params['agent_act_level']
 
+        self.current_action = None
+        self.nlg_model = None
+        self.nlu_model = None
+
     def initialize_episode(self):
-        """ Initialize a new episode. This function is called every time a new episode is run. """
-        self.current_action = {}                    # TODO Changed this variable's name to current_action
-        self.current_action['diaact'] = None        # TODO Does it make sense to call it a state if it has an act? Which act? The Most recent?
+        """ 初始化一个事件。每当一个新的事件运行时都会调用这个函数。 """
+        self.current_action = {}                      # TODO 将此变量名改成“当前操作”
+        self.current_action['diaact'] = None          # TODO 如果它发生了一个活动，把它称为一个状态还有意义吗？又是哪一个活动？ 最近的那个吗？
         self.current_action['inform_slots'] = {}
         self.current_action['request_slots'] = {}
         self.current_action['turn'] = 0
 
     def state_to_action(self, state, available_actions):
-        """ Take the current state and return an action according to the current exploration/exploitation policy
+        """ 根据当前探索/开采策略，获取当前状态并返回一个活动
 
-        We define the agents flexibly so that they can either operate on act_slot representations or act_slot_value representations.
-        We also define the responses flexibly, returning a dictionary with keys [act_slot_response, act_slot_value_response]. This way the command-line agent can continue to operate with values
+        我们定义了一个灵活的代理器，他们可以在act_slot表征或者act_slot_value表征上操作。
+        我们也定义了一个灵活的响应，返回一个键为[act_slot_response, act_slot_value_response]的词典。这种方式的command-line代理器可以继续操作values。
 
-        Arguments:
-        state      --   A tuple of (history, kb_results) where history is a sequence of previous actions and kb_results contains information on the number of results matching the current constraints.
-        user_action         --   A legacy representation used to run the command line agent. We should remove this ASAP but not just yet
-        available_actions   --   A list of the allowable actions in the current state
+        参数:
+        state               --   一个(history, kb_results)元组，history是之前活动的序列，kb_results包含匹配到正确约束的结果数量信息。
+        user_action         --   一个用来运行命令行代理器的legacy表征。我们应该移除这个ASAP，但是还没有。
+        available_actions   --   一个当前状态允许的活动列表
 
-        Returns:
+        返回:
         act_slot_action         --   An action consisting of one act and >= 0 slots as well as which slots are informed vs requested.
         act_slot_value_action   --   An action consisting of acts slots and values in the legacy format. This can be used in the future for training agents that take value into account and interact directly with the database
         """
@@ -54,16 +56,16 @@ class Agent:
         return {"act_slot_response": act_slot_response, "act_slot_value_response": act_slot_value_response}
 
     def register_experience_replay_tuple(self, s_t, a_t, reward, s_tplus1, episode_over):
-        """  Register feedback from the environment, to be stored as future training data
+        """  寄存来自环境中的反馈，存储为将来的训练数据
 
-        Arguments:
-        s_t                 --  The state in which the last action was taken
-        a_t                 --  The previous agent action
-        reward              --  The reward received immediately following the action
-        s_tplus1            --  The state transition following the latest action
-        episode_over        --  A boolean value representing whether the this is the final action.
+        参数:
+        s_t                 --  上次采取活动的状态
+        a_t                 --  上一个代理器活动
+        reward              --  活动后立即得到的奖励
+        s_tplus1            --  最新活动后的状态转变
+        episode_over        --  表示这是不是最终活动的boolean值
 
-        Returns:
+        返回:
         None
         """
         pass
@@ -75,13 +77,15 @@ class Agent:
         self.nlu_model = nlu_model
 
     def add_nl_to_action(self, agent_action):
-        """ Add NL to Agent Dia_Act """
-        
+        """将NL添加到代理的会话活动中"""
+
         if agent_action['act_slot_response']:
             agent_action['act_slot_response']['nl'] = ""
-            user_nlg_sentence = self.nlg_model.convert_diaact_to_nl(agent_action['act_slot_response'], 'agt') #self.nlg_model.translate_diaact(agent_action['act_slot_response']) # NLG
+            # self.nlg_model.translate_diaact(agent_action['act_slot_response']) # NLG
+            user_nlg_sentence = self.nlg_model.convert_diaact_to_nl(agent_action['act_slot_response'], 'agt')
             agent_action['act_slot_response']['nl'] = user_nlg_sentence
         elif agent_action['act_slot_value_response']:
             agent_action['act_slot_value_response']['nl'] = ""
-            user_nlg_sentence = self.nlg_model.convert_diaact_to_nl(agent_action['act_slot_value_response'], 'agt') #self.nlg_model.translate_diaact(agent_action['act_slot_value_response']) # NLG
+            # self.nlg_model.translate_diaact(agent_action['act_slot_value_response']) # NLG
+            user_nlg_sentence = self.nlg_model.convert_diaact_to_nl(agent_action['act_slot_value_response'], 'agt')
             agent_action['act_slot_response']['nl'] = user_nlg_sentence
