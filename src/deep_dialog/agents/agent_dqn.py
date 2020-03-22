@@ -7,7 +7,7 @@ An DQN Agent
 - Keep an experience_replay pool: training_data <State_t, Action, Reward, State_t+1>
 - Keep a copy DQN
 
-Command: python .\run.py --agt 9 --usr 1 --max_turn 40 --movie_kb_path .\deep_dialog\data\movie_kb.1k.json --dqn_hidden_size 80 --experience_replay_pool_size 1000 --replacement_steps 50 --per_train_epochs 100 --episodes 200 --err_method 2
+Command: python3 .\run.py --agt 9 --usr 1 --max_turn 40 --movie_kb_path .\deep_dialog\data\movie_kb.1k.json --dqn_hidden_size 80 --experience_replay_pool_size 1000 --replacement_steps 50 --per_train_epochs 100 --episodes 200 --err_method 2
 
 @author: xiul
 """
@@ -96,7 +96,7 @@ class AgentDQN(Agent):
         ########################################################################
         user_inform_slots_rep = np.zeros((1, self.slot_cardinality))
         for slot in user_action['inform_slots'].keys():
-            user_inform_slots_rep[0,self.slot_set[slot]] = 1.0
+            user_inform_slots_rep[0, self.slot_set[slot]] = 1.0
 
         ########################################################################
         # 创建请求槽包表征来表示当前用户活动
@@ -216,7 +216,7 @@ class AgentDQN(Agent):
         if self.predict_mode is False:      # Training Mode
             if self.warm_start == 1:
                 self.experience_replay_pool.append(training_example)
-        else: # Prediction Mode
+        else:                               # Prediction Mode
             self.experience_replay_pool.append(training_example)
     
     def train(self, batch_size=1, num_batches=100):
@@ -224,7 +224,7 @@ class AgentDQN(Agent):
         
         for iter_batch in range(num_batches):
             self.cur_bellman_err = 0
-            for iter in range(len(self.experience_replay_pool)/(batch_size)):
+            for iter in range(len(self.experience_replay_pool)//(batch_size)):
                 batch = [random.choice(self.experience_replay_pool) for i in range(batch_size)]
                 batch_struct = self.dqn.singleBatch(batch, {'gamma': self.gamma}, self.clone_dqn)
                 self.cur_bellman_err += batch_struct['cost']['total_cost']
@@ -252,7 +252,7 @@ class AgentDQN(Agent):
     def load_trained_DQN(self, path):
         """ 从文件中加载训练好的DQN """
         
-        trained_file = pickle.load(open(path, 'rb'))
+        trained_file = pickle.load(open(path, 'rb'), encoding='iso-8859-1')
         model = trained_file['model']
         
         print("trained DQN Parameters:", json.dumps(trained_file['params'], indent=2))

@@ -14,13 +14,6 @@ from nlu import nlu
 from nlg import nlg
 
 
-""" 
-根据命令行参数启动模拟对话
-这个函数实例化了一个user_simulator、一个agent和一个a dialog system.
-接下来，它触发模拟器以运行指定数量的episodes。
-"""
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
@@ -144,12 +137,11 @@ if __name__ == "__main__":
     print('Dialog Parameters: ')
     print(json.dumps(params, indent=2))
 
+max_turn = 40
+num_episodes = 200
 
-max_turn = params['max_turn']
-num_episodes = params['episodes']
-
-agt = params['agt']
-usr = params['usr']
+agt = 9
+usr = 1
 
 dict_path = params['dict_path']
 goal_file_path = params['goal_file_path']
@@ -168,7 +160,7 @@ for u_goal_id, u_goal in enumerate(all_goal_set):
     goal_set['all'].append(u_goal)
 # end split goal set
 
-movie_kb_path = params['movie_kb_path']
+movie_kb_path = r'deep_dialog/data/movie_kb.1k.json'
 movie_kb = pickle.load(open(movie_kb_path, 'rb'), encoding='iso-8859-1')
 
 act_set = text_to_dict(params['act_set'])
@@ -191,8 +183,8 @@ agent_params['epsilon'] = params['epsilon']
 agent_params['agent_run_mode'] = params['run_mode']
 agent_params['agent_act_level'] = params['act_level']
 
-agent_params['experience_replay_pool_size'] = params['experience_replay_pool_size']
-agent_params['dqn_hidden_size'] = params['dqn_hidden_size']
+agent_params['experience_replay_pool_size'] = 1000
+agent_params['dqn_hidden_size'] = 80
 agent_params['batch_size'] = params['batch_size']
 agent_params['gamma'] = params['gamma']
 agent_params['predict_mode'] = params['predict_mode']
@@ -234,17 +226,8 @@ usersim_params['simulator_run_mode'] = params['run_mode']
 usersim_params['simulator_act_level'] = params['act_level']
 usersim_params['learning_phase'] = params['learning_phase']
 
-if usr == 0:
-    # real user
-    user_sim = RealUser(movie_dictionary, act_set, slot_set, goal_set, usersim_params)
-elif usr == 1: 
-    user_sim = RuleSimulator(movie_dictionary, act_set, slot_set, goal_set, usersim_params)
 
-################################################################################
-#    Add your user simulator here
-################################################################################
-else:
-    pass
+user_sim = RuleSimulator(movie_dictionary, act_set, slot_set, goal_set, usersim_params)
 
 
 ################################################################################
@@ -375,8 +358,9 @@ def warm_start_simulation():
             if episode_over:
                 if reward > 0: 
                     successes += 1
-                    print ("warm_start simulation episode %s: Success" % episode)
-                else: print ("warm_start simulation episode %s: Fail" % episode)
+                    print("warm_start simulation episode %s: Success" % episode)
+                else:
+                    print("warm_start simulation episode %s: Fail" % episode)
                 cumulative_turns += dialog_manager.state_tracker.turn_count
         
         warm_start_run_epochs += 1
@@ -413,9 +397,10 @@ def run_episodes(count, status):
                 
             if episode_over:
                 if reward > 0:
-                    print ("Successful Dialog!")
+                    print("Successful Dialog!")
                     successes += 1
-                else: print ("Failed Dialog!")
+                else:
+                    print("Failed Dialog!")
                 
                 cumulative_turns += dialog_manager.state_tracker.turn_count
         
@@ -444,7 +429,7 @@ def run_episodes(count, status):
             agent.train(batch_size, 1)
             agent.predict_mode = False
             
-            print ("Simulation success rate %s, Ave reward %s, Ave turns %s, Best success rate %s" % (performance_records['success_rate'][episode], performance_records['ave_reward'][episode], performance_records['ave_turns'][episode], best_res['success_rate']))
+            print("Simulation success rate %s, Ave reward %s, Ave turns %s, Best success rate %s" % (performance_records['success_rate'][episode], performance_records['ave_reward'][episode], performance_records['ave_turns'][episode], best_res['success_rate']))
             if episode % save_check_point == 0 and params['trained_model_path'] == None: # save the model every 10 episodes
                 save_model(params['write_model_dir'], agt, best_res['success_rate'], best_model['model'], best_res['epoch'], episode)
                 save_performance_records(params['write_model_dir'], agt, performance_records)

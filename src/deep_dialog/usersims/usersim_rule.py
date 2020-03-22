@@ -1,7 +1,7 @@
 """
 Created on May 14, 2016
 
-a rule-based user simulator
+基于规则的用户模拟器
 
 -- user_goals_first_turn_template.revised.v1.p: all goals
 -- user_goals_first_turn_template.part.movie.v1.p: moviename in goal.inform_slots
@@ -9,8 +9,7 @@ a rule-based user simulator
 
 @author: xiul, t-zalipt
 """
-
-from .usersim import UserSimulator
+from usersims.usersim import UserSimulator
 import argparse
 import json
 import random
@@ -20,11 +19,12 @@ import dialog_config
 
 
 class RuleSimulator(UserSimulator):
-    """ A rule-based user simulator for testing dialog policy """
+    """ 测试会话策略的基于规则的用户模拟器 """
     
     def __init__(self, movie_dict=None, act_set=None, slot_set=None, start_set=None, params=None):
-        """ Constructor shared by all user simulators """
-        
+        """ 所有用户模拟器共享的构造函数 """
+
+        # 电影KBs
         self.movie_dict = movie_dict
         self.act_set = act_set
         self.slot_set = slot_set
@@ -39,9 +39,16 @@ class RuleSimulator(UserSimulator):
         self.simulator_act_level = params['simulator_act_level']
         
         self.learning_phase = params['learning_phase']
+
+        self.episode_over = None
+        self.dialog_status = None
+        self.goal = None
+        self.nlu_model = None
+        self.nlg_model = None
+        self.constraint_check = None
     
     def initialize_episode(self):
-        """ Initialize a new episode (dialog) 
+        """ 初始化一个新的片段（会话）
         state['history_slots']: keeps all the informed_slots
         state['rest_slots']: keep all the slots (which is still in the stack yet)
         """
@@ -61,29 +68,30 @@ class RuleSimulator(UserSimulator):
         self.goal['request_slots']['ticket'] = 'UNK'
         self.constraint_check = dialog_config.CONSTRAINT_CHECK_FAILURE
   
-        """ Debug: build a fake goal mannually """
+        """ Debug: 同时构造一个虚假目标 """
         # self.debug_falk_goal()
         
-        # sample first action
+        # 样本的第一个活动
         user_action = self._sample_action()
-        assert (self.episode_over != 1),' but we just started'
+        assert (self.episode_over != 1), ' but we just started'
         return user_action  
         
     def _sample_action(self):
-        """ randomly sample a start action based on user goal """
+        """ 根据用户目标随机抽取一个开始活动 """
         
-        self.state['diaact'] = random.choice(dialog_config.start_dia_acts.keys())
+        self.state['diaact'] = random.choice(list(dialog_config.start_dia_acts.keys()))
         
         # "sample" informed slots
         if len(self.goal['inform_slots']) > 0:
-            known_slot = random.choice(self.goal['inform_slots'].keys())
+            known_slot = random.choice(list(self.goal['inform_slots'].keys()))
             self.state['inform_slots'][known_slot] = self.goal['inform_slots'][known_slot]
 
-            if 'moviename' in self.goal['inform_slots'].keys(): # 'moviename' must appear in the first user turn
+            if 'moviename' in self.goal['inform_slots'].keys():     # 'moviename' 必须出现在用户的首轮会话中
                 self.state['inform_slots']['moviename'] = self.goal['inform_slots']['moviename']
                 
             for slot in self.goal['inform_slots'].keys():
-                if known_slot == slot or slot == 'moviename': continue
+                if known_slot == slot or slot == 'moviename':
+                    continue
                 self.state['rest_slots'].append(slot)
         
         self.state['rest_slots'].extend(self.goal['request_slots'].keys())
@@ -100,8 +108,10 @@ class RuleSimulator(UserSimulator):
         if len(self.state['request_slots']) == 0:
             self.state['diaact'] = 'inform'
 
-        if (self.state['diaact'] in ['thanks','closing']): self.episode_over = True #episode_over = True
-        else: self.episode_over = False #episode_over = False
+        if self.state['diaact'] in ['thanks', 'closing']:
+            self.episode_over = True        # episode_over = True
+        else:
+            self.episode_over = False       # episode_over = False
 
         sample_action = {}
         sample_action['diaact'] = self.state['diaact']
@@ -113,14 +123,13 @@ class RuleSimulator(UserSimulator):
         return sample_action
     
     def _sample_goal(self, goal_set):
-        """ sample a user goal  """
+        """ 抽取一个用户目标  """
         
         sample_goal = random.choice(self.start_set[self.learning_phase])
         return sample_goal
 
     def corrupt(self, user_action):
-        """ Randomly corrupt an action with error probs (slot_err_probability and slot_err_mode)
-        on Slot and Intent (intent_err_probability). """
+        """ 在Slot和Intent (intent_err_probability)中随机损坏带有错误概率的操作 (slot_err_probability and slot_err_mode) """
         
         for slot in user_action['inform_slots'].keys():
             slot_err_prob_sample = random.random()
@@ -137,16 +146,16 @@ class RuleSimulator(UserSimulator):
                         user_action[random_slot] = random.choice(self.movie_dict[random_slot])
                     else:
                         del user_action['inform_slots'][slot]
-                elif self.slot_err_mode == 2: #replace slot and its values
+                elif self.slot_err_mode == 2:   # replace slot and its values
                     del user_action['inform_slots'][slot]
                     random_slot = random.choice(self.movie_dict.keys())
                     user_action[random_slot] = random.choice(self.movie_dict[random_slot])
-                elif self.slot_err_mode == 3: # delete the slot
+                elif self.slot_err_mode == 3:   # delete the slot
                     del user_action['inform_slots'][slot]
                     
         intent_err_sample = random.random()
         if intent_err_sample < self.intent_err_probability: # add noise for intent level
-            user_action['diaact'] = random.choice(self.act_set.keys())
+            user_action['diaact'] = random.choice(list(self.act_set.keys()))
     
     def debug_falk_goal(self):
         """ Debug function: build a fake goal mannually (Can be moved in future) """
@@ -174,7 +183,7 @@ class RuleSimulator(UserSimulator):
         
         sys_act = system_action['diaact']
         
-        if (self.max_turn > 0 and self.state['turn'] > self.max_turn):
+        if self.max_turn > 0 and self.state['turn'] > self.max_turn:
             self.dialog_status = dialog_config.FAILED_DIALOG
             self.episode_over = True
             self.state['diaact'] = "closing"
@@ -232,7 +241,7 @@ class RuleSimulator(UserSimulator):
         self.episode_over = True
         self.dialog_status = dialog_config.SUCCESS_DIALOG
 
-        request_slot_set = copy.deepcopy(self.state['request_slots'].keys())
+        request_slot_set = copy.deepcopy(list(self.state['request_slots'].keys()))
         if 'ticket' in request_slot_set:
             request_slot_set.remove('ticket')
         rest_slot_set = copy.deepcopy(self.state['rest_slots'])
@@ -260,7 +269,7 @@ class RuleSimulator(UserSimulator):
         """ Response for Request (System Action) """
         
         if len(system_action['request_slots'].keys()) > 0:
-            slot = system_action['request_slots'].keys()[0] # only one slot
+            slot = list(system_action['request_slots'].keys())[0]     # only one slot
             if slot in self.goal['inform_slots'].keys(): # request slot in user's constraints  #and slot not in self.state['request_slots'].keys():
                 self.state['inform_slots'][slot] = self.goal['inform_slots'][slot]
                 self.state['diaact'] = "inform"
@@ -422,7 +431,6 @@ def main(params):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-
     args = parser.parse_args()
     params = vars(args)
 

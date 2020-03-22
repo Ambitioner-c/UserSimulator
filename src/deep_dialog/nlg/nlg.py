@@ -56,9 +56,10 @@ class nlg:
         
         # remove I do not care slot in task(complete)
         if dia_act['diaact'] == 'inform' and 'taskcomplete' in dia_act['inform_slots'].keys() and dia_act['inform_slots']['taskcomplete'] != dialog_config.NO_VALUE_MATCH:
-            inform_slot_set = dia_act['inform_slots'].keys()
+            inform_slot_set = list(dia_act['inform_slots'].keys())
             for slot in inform_slot_set:
-                if dia_act['inform_slots'][slot] == dialog_config.I_DO_NOT_CARE: del dia_act['inform_slots'][slot]
+                if dia_act['inform_slots'][slot] == dialog_config.I_DO_NOT_CARE:
+                    del dia_act['inform_slots'][slot]
         
         if dia_act['diaact'] in self.diaact_nl_pairs['dia_acts'].keys():
             for ele in self.diaact_nl_pairs['dia_acts'][dia_act['diaact']]:
@@ -134,7 +135,7 @@ class nlg:
     def load_nlg_model(self, model_path):
         """ load the trained NLG model """  
         
-        model_params = pickle.load(open(model_path, 'rb'))
+        model_params = pickle.load(open(model_path, 'rb'), encoding='iso-8859-1')
     
         hidden_size = model_params['model']['Wd'].shape[0]
         output_size = model_params['model']['Wd'].shape[1]
@@ -158,7 +159,7 @@ class nlg:
     def diaact_to_nl_slot_filling(self, dia_act, template_sentence):
         """ Replace the slots with its values """
         
-        sentence = template_sentence
+        sentence = template_sentence.decode('utf-8')
         counter = 0
         for slot in dia_act['inform_slots'].keys():
             slot_val = dia_act['inform_slots'][slot]
@@ -169,8 +170,7 @@ class nlg:
                 counter += 1
                 sentence = sentence.replace('$'+slot+'$', '', 1)
                 continue
-            
-            sentence = sentence.replace('$'+slot+'$', slot_val, 1)
+            sentence = sentence.replace('$'+slot+'$', '' + slot_val, 1)
         
         if counter > 0 and counter == len(dia_act['inform_slots']):
             sentence = dialog_config.I_DO_NOT_CARE

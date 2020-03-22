@@ -8,10 +8,10 @@ import random
 
 
 class UserSimulator:
-    """ Parent class for all user sims to inherit from """
+    """ 所有用户模拟器都需要继承的父类 """
 
     def __init__(self, movie_dict=None, act_set=None, slot_set=None, start_set=None, params=None):
-        """ Constructor shared by all user simulators """
+        """ 所有用户模拟器共享的构造函数 """
         
         self.movie_dict = movie_dict
         self.act_set = act_set
@@ -22,16 +22,19 @@ class UserSimulator:
         self.slot_err_probability = params['slot_err_probability']
         self.slot_err_mode = params['slot_err_mode']
         self.intent_err_probability = params['intent_err_probability']
-        
+
+        self.goal = None
+        self.nlu_model = None
+        self.nlg_model = None
 
     def initialize_episode(self):
-        """ Initialize a new episode (dialog)"""
+        """ 初始化一个新的片段（会话） """
 
         print("initialize episode called, generating goal")
-        self.goal =  random.choice(self.start_set)
+        self.goal = random.choice(self.start_set)
         self.goal['request_slots']['ticket'] = 'UNK'
         episode_over, user_action = self._sample_action()
-        assert (episode_over != 1),' but we just started'
+        assert (episode_over != 1), ' but we just started'
         return user_action
 
     def next(self, system_action):
@@ -50,7 +53,7 @@ class UserSimulator:
         user_action['nl'] = user_nlg_sentence
         
         if self.simulator_act_level == 1:
-            user_nlu_res = self.nlu_model.generate_dia_act(user_action['nl']) # NLU
+            user_nlu_res = self.nlu_model.generate_dia_act(user_action['nl'])   # NLU
             if user_nlu_res is not None:
                 # user_nlu_res['diaact'] = user_action['diaact'] # or not?
                 user_action.update(user_nlu_res)

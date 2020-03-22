@@ -11,11 +11,11 @@ class DQN:
     def __init__(self, input_size, hidden_size, output_size):
         self.model = {}
         # input-hidden
-        self.model['Wxh'] = initWeight(input_size, hidden_size)
+        self.model['Wxh'] = init_weight(input_size, hidden_size)
         self.model['bxh'] = np.zeros((1, hidden_size))
       
         # hidden-output
-        self.model['Wd'] = initWeight(hidden_size, output_size)*0.1
+        self.model['Wd'] = init_weight(hidden_size, output_size) * 0.1
         self.model['bd'] = np.zeros((1, output_size))
 
         self.update = ['Wxh', 'bxh', 'Wd', 'bd']
@@ -23,11 +23,11 @@ class DQN:
 
         self.step_cache = {}
 
-    def getStruct(self):
+    def get_struct(self):
         return {'model': self.model, 'update': self.update, 'regularize': self.regularize}
 
     """Activation Function: Sigmoid, or tanh, or ReLu"""
-    def fwdPass(self, Xs, params, **kwargs):
+    def fwd_pass(self, Xs, params, **kwargs):
         predict_mode = kwargs.get('predict_mode', False)
         active_func = params.get('activation_func', 'relu')
  
@@ -36,16 +36,16 @@ class DQN:
         bxh = self.model['bxh']
         Xsh = Xs.dot(Wxh) + bxh
         
-        hidden_size = self.model['Wd'].shape[0] # size of hidden layer
-        H = np.zeros((1, hidden_size)) # hidden layer representation
+        hidden_size = self.model['Wd'].shape[0]     # size of hidden layer
+        H = np.zeros((1, hidden_size))              # hidden layer representation
         
         if active_func == 'sigmoid':
             H = 1/(1+np.exp(-Xsh))
         elif active_func == 'tanh':
             H = np.tanh(Xsh)
-        elif active_func == 'relu': # ReLU 
+        elif active_func == 'relu':                 # ReLU
             H = np.maximum(Xsh, 0)
-        else: # no activation function
+        else:                                       # no activation function
             H = Xsh
                 
         # decoder at the end; hidden layer to output layer
@@ -70,7 +70,7 @@ class DQN:
             
         return Y, cache
     
-    def bwdPass(self, dY, cache):
+    def bwd_pass(self, dY, cache):
         Wd = cache['Wd']
         H = cache['H']
         Xs = cache['Xs']
@@ -78,7 +78,7 @@ class DQN:
         Wxh = cache['Wxh']
  
         active_func = cache['activation_func']
-        n,d = H.shape
+        n, d = H.shape
         
         dH = dY.dot(Wd.transpose())
         # backprop the decoder
@@ -93,28 +93,28 @@ class DQN:
         elif active_func == 'tanh':
             dH = (1-H**2)*dH
         elif active_func == 'relu':
-            dH = (H>0)*dH # backprop ReLU
+            dH = (H > 0)*dH     # backprop ReLU
         else:
             dH = dH
               
         # backprop to the input-hidden connection
         dWxh = Xs.transpose().dot(dH)
-        dbxh = np.sum(dH, axis=0, keepdims = True)
+        dbxh = np.sum(dH, axis=0, keepdims=True)
         
         # backprop to the input
         dXsh = dH
         dXs = dXsh.dot(Wxh.transpose())
         
-        return {'Wd': dWd, 'bd': dbd, 'Wxh':dWxh, 'bxh':dbxh}
+        return {'Wd': dWd, 'bd': dbd, 'Wxh': dWxh, 'bxh': dbxh}
 
     """batch Forward & Backward Pass"""
-    def batchForward(self, batch, params, predict_mode = False):
+    def batch_forward(self, batch, params, predict_mode=False):
         caches = []
         Ys = []
-        for i,x in enumerate(batch):
+        for i, x in enumerate(batch):
             Xs = np.array([x['cur_states']], dtype=float)
             
-            Y, out_cache = self.fwdPass(Xs, params, predict_mode = predict_mode)
+            Y, out_cache = self.fwd_pass(Xs, params, predict_mode=predict_mode)
             caches.append(out_cache)
             Ys.append(Y)
            
@@ -132,7 +132,7 @@ class DQN:
         
         for i,x in enumerate(batch):
             Xs = x[0]
-            Y, out_cache = self.fwdPass(Xs, params, predict_mode = predict_mode)
+            Y, out_cache = self.fwd_pass(Xs, params, predict_mode = predict_mode)
             caches.append(out_cache)
             Ys.append(Y)
             
@@ -154,8 +154,8 @@ class DQN:
         grads = {}
         for i in range(len(caches)):
             single_cache = caches[i]
-            local_grads = self.bwdPass(dY[i], single_cache)
-            mergeDicts(grads, local_grads) # add up the gradients wrt model parameters
+            local_grads = self.bwd_pass(dY[i], single_cache)
+            merge_dicts(grads, local_grads) # add up the gradients wrt model parameters
             
         return grads
 
@@ -272,7 +272,7 @@ class DQN:
     
     """ prediction """
     def predict(self, Xs, params, **kwargs):
-        Ys, caches = self.fwdPass(Xs, params, predict_model=True)
+        Ys, caches = self.fwd_pass(Xs, params, predict_model=True)
         pred_action = np.argmax(Ys)
         
         return pred_action
